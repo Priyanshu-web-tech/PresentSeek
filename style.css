@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Roboto&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #333;
+}
+
+/* login */
+.main {
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.box {
+    width: 25%;
+    padding: 15px;
+}
+.box h1 {
+    padding: 5px;
+    color: white;
+    font-size: 50px;
+}
+.row {
+    width: 100%;
+    margin: 2rem;
+    margin-left: 0;
+}
+
+.rf {
+    display: flex;
+    justify-content: center;
+}
+
+.pass-link {
+    margin-left: 2rem;
+}
+
+.btn {
+    width: 100%;
+    height: 1cm;
+    background-color: black;
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+    border-radius: 50px;
+}
+
+.cred {
+    color: white;
+    background-color: transparent;
+    border-radius: 50px;
+    height: 1cm;
+    text-align: center;
+    width: 100%;
+}
+
+/* navbar */
+.nav_logo {
+    margin-left: 1cm;
+    width: 150px;
+    cursor: pointer;
+}
+
+.nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+.sec {
+    background-color: transparent;
+    color: white;
+    padding: 0.4rem;
+    margin-right: 1cm;
+    width: 2.2cm;
+    height: 1cm;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.sec:hover{
+    background-color: white;
+    color: black;
+}
+/* banner */
+.banner {
+    height: 100vh;
+    background-image: linear-gradient(rgba(12, 12, 12, 0.7), rgba(12, 12, 12, 0.7)), url(images/banner.jpg);
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+}
+.contents{
+    font-family: 'Josefin Sans', sans-serif;
+    margin-top: 3cm;
+    margin-left:5cm;
+    width: 70%;
+    padding: 60px;
+}
+.contents h1,p{
+    margin-top: 1rem;
+}
+.contents p{
+    text-align: left;
+    font-size: 20px;
+}
+.contents ul li{
+    margin-top: 1rem;
+    list-style: none;
+    font-size: 15px;
+    text-align: left;
+}
+.contents ul li::before{
+    content: "\25BA \0020";
+}
+/* Home */
+/* Cards */
+.cr {
+    color: white;
+    display: flex;
+    align-items: center;
+    background-color: black;
+    margin-top: 0.5rem;
+}
+
+.r1 {
+   width: 500px;
+   height: 379px;
+   cursor: pointer;
+   transition: all 0.7s;
+}
+.r1:hover{
+    transform: scale(1.1);
+}
+.hp {
+    flex-basis: 50%;
+    margin: auto;
+}
+
+.hp h1 {
+    font-size: 50px;
+}
+.left{
+    flex-direction: row-reverse;
+}
+.hp p {
+    font-size: 29px;
+    margin-top: 1rem;
+}
+.cbtn {
+    margin-top: 2rem;
+    color: black;
+    width: 5cm;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+/* footer */
+.container{
+	width: 85%;
+	margin:auto;
+    margin-top: 4rem;
+}
+footer{  
+    font-weight: 500;
+    margin-top:0.5rem;
+    background-color: black;
+    color: #737373;
+    display: grid;
+    box-sizing: border-box;
+}
+.connect{
+    display: flex;
+    justify-content: space-between;
+}
+.icons{
+    display: flex;
+}
+.icons li{
+    list-style: none;
+    margin-left: 2rem;
+    cursor: pointer;
+}
+.footer-row{
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    gap: 10rem;
+}
+footer ul li{
+    list-style: none;
+    padding: 0.5rem;
+}
+footer a{
+    text-decoration: none;
+    color: #737373;
+}
+.footer-p{
+    margin-top: 1rem;
+    text-align: center;
+}
