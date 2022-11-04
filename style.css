@@ -13,7 +13,7 @@ body {
 /* login */
 .main {
     width: 100%;
-    height: 85vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,12 +83,15 @@ body {
     height: 1cm;
     border-radius: 5px;
     cursor: pointer;
+    transition: all 0.5s;
 }
 .sec:hover{
     background-color: white;
     color: black;
+    transform: scale(1.2);
 }
 /* banner */
+
 .banner {
     height: 100vh;
     background-image: linear-gradient(rgba(12, 12, 12, 0.7), rgba(12, 12, 12, 0.7)), url(images/banner.jpg);
@@ -96,6 +99,12 @@ body {
     background-position: center;
     color: white;
     text-align: center;
+}
+.st{
+    background-image: linear-gradient(rgba(12, 12, 12, 0.7), rgba(12, 12, 12, 0.7)), url(images/sb.jpg);
+}
+.tb{
+    background-image: linear-gradient(rgba(12, 12, 12, 0.7), rgba(12, 12, 12, 0.7)), url(images/tb.jpg);
 }
 .contents{
     font-family: 'Josefin Sans', sans-serif;
@@ -160,8 +169,12 @@ body {
     width: 5cm;
     font-size: 25px;
     cursor: pointer;
+    transition: all 0.5s;
 }
-
+.cbtn:hover{
+    background-color: aqua;
+    transform: scale(1.2);
+}
 /* footer */
 .container{
 	width: 85%;
