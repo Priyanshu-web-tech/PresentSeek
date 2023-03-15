@@ -69,7 +69,6 @@ if (isset($_POST['submitS'])) {
   if ($value['pointers'] == $key) {
     $sql2 = "INSERT INTO `loginformadmin`(`user`, `pass`, `Name`, `email`, `phone`, `experience`) VALUES ('$uname','$password','$name','$mail','$phone','$exp')";
     mysqli_query($con, $sql2);
-
     echo "<script>alert('User Added Successfully');
     window.location.replace('index_admin.php');
     </script>";
@@ -80,7 +79,6 @@ if (isset($_POST['submitS'])) {
     </script>";
     exit();
   }
-
 }
 
 ?>
