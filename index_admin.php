@@ -36,9 +36,7 @@ if (isset($_POST['user'])) {
 }
 
 if (isset($_POST['submitS'])) {
-
   $key = $_POST['key'];
-
   $uname = $_POST['username'];
   $password = $_POST['upass'];
   $name = $_POST['uname'];
