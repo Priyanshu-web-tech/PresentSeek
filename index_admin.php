@@ -12,11 +12,14 @@ if (isset($_POST['user'])) {
   $uname = $_POST['user'];
   $password = $_POST['pass'];
 
+  // Use prepared statements to prevent SQL injection
+  $stmt = $con->prepare("SELECT * FROM loginformadmin WHERE user=? AND pass=? LIMIT 1");
+  $stmt->bind_param("ss", $uname, $password);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $row = mysqli_fetch_assoc($result);
 
-  $sql = "select * from loginformadmin where user='" . $uname . "' AND pass='" . $password . "' limit 1 ; ";
-  $result = $con->query($sql);
-
-  if (mysqli_num_rows($result) == 1) {
+  if ($result->num_rows == 1) {
     $_SESSION["user"] = $uname;
     $_SESSION["pass"] = $password;
     $_SESSION["loggedInA"] = true;
@@ -26,7 +29,7 @@ if (isset($_POST['user'])) {
     $_SESSION["loggedInA"] = false;
 
     echo "<script>
-    alert('Incorrect Credentials,Login with Correct Credentials');
+    alert('Incorrect Credentials, Login with Correct Credentials');
     setTimeout(function(){
       window.location.href='index_admin.php';
     });
@@ -44,8 +47,9 @@ if (isset($_POST['submitS'])) {
   $mail = $_POST['uemail'];
   $phone = $_POST['uphone'];
 
-  $sql = "select `user` from loginformadmin ; ";
-  $result = mysqli_query($con, $sql);
+  $stmt = $con->prepare("SELECT user FROM loginformadmin");
+  $stmt->execute();
+  $result = $stmt->get_result();
   $rows = mysqli_fetch_array($result);
 
   foreach ($rows as $value) {
@@ -67,8 +71,9 @@ if (isset($_POST['submitS'])) {
   $value = mysqli_fetch_assoc(mysqli_query($con, $query));
 
   if ($value['pointers'] == $key) {
-    $sql2 = "INSERT INTO `loginformadmin`(`user`, `pass`, `Name`, `email`, `phone`, `experience`) VALUES ('$uname','$password','$name','$mail','$phone','$exp')";
-    mysqli_query($con, $sql2);
+    $stmt2 = $con->prepare("INSERT INTO loginformadmin (user, pass, Name, email, phone, experience) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt2->bind_param("ssssss", $uname, $password, $name, $mail, $phone, $exp);
+    $stmt2->execute();
     echo "<script>alert('User Added Successfully');
     window.location.replace('index_admin.php');
     </script>";
@@ -82,6 +87,7 @@ if (isset($_POST['submitS'])) {
 }
 
 ?>
+
 
 <!doctype html>
 <html lang="en">

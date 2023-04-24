@@ -1,5 +1,5 @@
 <?php
- session_start();
+session_start();
 $host = "localhost";
 $user = "root";
 $password = "";
@@ -7,33 +7,35 @@ $db = "presentseek";
 
 $con = mysqli_connect($host, $user, $password, $db);
 
-
-
 if (isset($_POST['username'])) {
-
   $uname = $_POST['username'];
   $password = $_POST['pass'];
   $_SESSION["user"] = $uname;
 
   if ($_POST['submit'] === "Login As Student") {
-    $sql = "select * from loginformstudent where user='" . $uname . "' AND pass='" . $password . "' limit 1 ; ";
+    $sql = "SELECT * FROM loginformstudent WHERE user=? AND pass=? LIMIT 1";
   } else if ($_POST['submit'] === "Login As Teacher") {
-    $sql = "select * from loginformteacher where user='" . $uname . "' AND pass='" . $password . "' limit 1 ; ";
+    $sql = "SELECT * FROM loginformteacher WHERE user=? AND pass=? LIMIT 1";
   }
-  $result = $con->query($sql);
+
+  $stmt = $con->prepare($sql);
+  $stmt->bind_param("ss", $uname, $password);
+  $stmt->execute();
+  $result = $stmt->get_result();
 
   if (mysqli_num_rows($result) == 1 && $_POST['submit'] === "Login As Teacher") {
     $_SESSION["user"] = $uname;
     $_SESSION["pass"] = $password;
     $_SESSION["loggedIn"] = true;
-    header("Location:Teacher/index.php?user=".$uname);
+    header("Location:Teacher/index.php?user=" . $uname);
     exit();
   } else if (mysqli_num_rows($result) == 1 and $_POST['submit'] === "Login As Student") {
     $_SESSION["user"] = $uname;
     $_SESSION["pass"] = $password;
 
     $_SESSION["loggedInS"] = true;
-    header("Location:Student/index.php?user=".$uname);    exit();
+    header("Location:Student/index.php?user=" . $uname);
+    exit();
   } else {
     echo "<script>
     alert('Incorrect Credentials,Login with Correct Credentials,If Lost Kindly Contact Admin');
@@ -43,10 +45,9 @@ if (isset($_POST['username'])) {
     </script>";
     exit();
   }
-
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
