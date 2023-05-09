@@ -1,14 +1,8 @@
 <?php
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$conn = mysqli_connect($host, $user, $password, $db);
-
+include_once("../../db_config.php");
 
 $query = "SELECT  `branch` FROM `branch`";
-$result = mysqli_query($conn, $query);
+$result = mysqli_query($con, $query);
 
 while ($row = mysqli_fetch_assoc($result)) {
     echo "<option value='" . $row['branch'] . "'>" . $row['branch'] . "</option>";

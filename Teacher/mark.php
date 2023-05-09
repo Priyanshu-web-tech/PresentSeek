@@ -6,25 +6,11 @@ if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
   exit;
 }
 
-//connect to the database
-
-
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$db = mysqli_connect($host, $user, $password, $db);
-
-//check connection
-if (!$db) {
-  die("Connection failed: " . mysqli_connect_error());
-}
-
+include_once("../db_config.php");
 $class_name = $_GET['class_name'];
 
 $query = "SELECT * FROM `$class_name` ORDER BY `RollNO` ;";
-$result = mysqli_query($db, $query);
+$result = mysqli_query($con, $query);
 
 
 $data = array(
@@ -51,11 +37,11 @@ if (isset($_POST['submit'])) {
       }
       $total = $total + 2;
       $update_query = "UPDATE `$class_name` SET `Present` = '$present', `Total` = '$total' WHERE `RollNO` = '$roll_no'";
-      mysqli_query($db, $update_query);
+      mysqli_query($con, $update_query);
       $query2 = "INSERT INTO `attendance`(`SName`, `class_name`, `date`, `status`, `RollNO`) VALUES ('$name','$class_name',CURRENT_TIMESTAMP,'$status','$roll_no')";
-      mysqli_query($db, $query2);
+      mysqli_query($con, $query2);
       $query2 = "INSERT INTO `attendance`(`SName`, `class_name`, `date`, `status`, `RollNO`) VALUES ('$name','$class_name',CURRENT_TIMESTAMP,'$status','$roll_no')";
-      mysqli_query($db, $query2);
+      mysqli_query($con, $query2);
     }
 
 
@@ -74,9 +60,9 @@ if (isset($_POST['submit'])) {
       $total++;
       $update_query = "UPDATE `$class_name` SET `Present` = '$present', `Total` = '$total' WHERE `RollNO` = '$roll_no'";
 
-      mysqli_query($db, $update_query);
+      mysqli_query($con, $update_query);
       $query2 = "INSERT INTO `attendance`(`SName`, `class_name`, `date`, `status`, `RollNO`) VALUES ('$name','$class_name', CURDATE(),'$status','$roll_no')";
-      mysqli_query($db, $query2);
+      mysqli_query($con, $query2);
     }
 
 

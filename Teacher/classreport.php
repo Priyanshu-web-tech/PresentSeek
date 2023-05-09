@@ -7,20 +7,7 @@ if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
   exit;
 }
 
-
-//connect to the database
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$db = mysqli_connect($host, $user, $password, $db);
-
-//check connection
-if (!$db) {
-  die("Connection failed: " . mysqli_connect_error());
-}
-
+include_once("../db_config.php");
 //check if the form is submitted
 if (isset($_POST['submitD'])) {
 
@@ -34,7 +21,7 @@ if (isset($_POST['submitD'])) {
   $sql = "SELECT * FROM `attendance` WHERE class_name=\"cse_ds_b_data_struc\";";
 
   $sql = "SELECT * FROM `attendance` WHERE YEAR(date)=$year and MONTH(date)=$month and DAY(date)=$day and class_name=\"$class\";";
-  $result = mysqli_query($db, $sql);
+  $result = mysqli_query($con, $sql);
 
   //create a new file and name it
   $file = fopen("Attendance_" . $month . "_" . $day . "_" . $year . ".csv", "w");
@@ -70,7 +57,7 @@ if (isset($_POST['submitF'])) {
 
   $sql1 = "SELECT `class_name`,  `subject` FROM `classes` WHERE  `branch`='$branch' and `section`='$section' ;";
 
-  $result1 = mysqli_query($db, $sql1);
+  $result1 = mysqli_query($con, $sql1);
 
   $class_names = array();
   $subjects = array();
@@ -100,7 +87,7 @@ if (isset($_POST['submitF'])) {
   }
   $query .= "ORDER by " . $class_names[0] . ".RollNO;";
 
-  $result = mysqli_query($db, $query);
+  $result = mysqli_query($con, $query);
 
   $file = fopen('Attendance.csv', 'w');
 

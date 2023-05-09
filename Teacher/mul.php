@@ -6,26 +6,13 @@ if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
     exit;
 }
 
-//connect to the database
-
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$db = mysqli_connect($host, $user, $password, $db);
-
-//check connection
-if (!$db) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
+include_once("../db_config.php");
 // total Finding
 
 $selected_class = $_GET['class_name'];
 
 $sq = "SELECT  MAX(`Total`) FROM $selected_class;";
-$kp = mysqli_query($db, $sq);
+$kp = mysqli_query($con, $sq);
 $ki = mysqli_fetch_array($kp);
 
 if (!empty($ki[0])) {
@@ -38,12 +25,12 @@ if (!empty($ki[0])) {
 
 $query = "SELECT `branch`,`semester` from `classes` where `class_name`='$selected_class';";
 
-$result = mysqli_query($db, $query);
+$result = mysqli_query($con, $query);
 
 $row = mysqli_fetch_array($result);
 
 $q = "SELECT `RollNo` FROM $selected_class;";
-$res = mysqli_query($db, $q);
+$res = mysqli_query($con, $q);
 
 $roll_numbers = array();
 while ($r = mysqli_fetch_assoc($res)) {
@@ -55,7 +42,7 @@ $s = $row['semester'];
 $roll_numbers_string = implode("','", $roll_numbers);
 
 $query2 = "SELECT `user`,`Name` from `loginformstudent` where `branch`='$b' and `sem`='$s' and `user` NOT IN ('$roll_numbers_string')  ORDER BY `user`;";
-$result2 = mysqli_query($db, $query2);
+$result2 = mysqli_query($con, $query2);
 
 $data = array(
     'result2' => $result2
@@ -69,10 +56,10 @@ if (isset($_POST['submit'])) {
         if (isset($_POST['stat'][$roll_no])) {
             $insert_query = "INSERT INTO `$selected_class`(`RollNO`, `Names`, `Sem`, `Present`, `Total`) 
             VALUES ('$roll_no','$name','$s',0,0)";
-            mysqli_query($db, $insert_query);
+            mysqli_query($con, $insert_query);
 
             $query10 = "UPDATE `$selected_class` SET `Total`='$tot' WHERE `RollNO`='$roll_no';";
-            mysqli_query($db, $query10);
+            mysqli_query($con, $query10);
 
         }
     }

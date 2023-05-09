@@ -7,26 +7,12 @@ if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
     exit;
 }
 
-
-//connect to the database
-
-
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$db = mysqli_connect($host, $user, $password, $db);
-
-//check connection
-if (!$db) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+include_once("../db_config.php");
 
 $class_name = $_GET['class_name'];
 
 $query = "SELECT * FROM `$class_name` ORDER BY `RollNO` ;";
-$result = mysqli_query($db, $query);
+$result = mysqli_query($con, $query);
 
 
 $data = array(
@@ -34,7 +20,7 @@ $data = array(
 );
 
 $sql = "SELECT `course`, `branch`, `semester`, `term_start`, `term_end`, `num_lectures`, `section`, `subject` FROM `classes` WHERE `class_name`='$class_name';";
-$result2 = mysqli_query($db, $sql);
+$result2 = mysqli_query($con, $sql);
 
 $row = mysqli_fetch_assoc($result2);
 
@@ -58,12 +44,12 @@ if (isset($_POST['submit'])) {
 
 
 
-    mysqli_query($db, $query1);
-    mysqli_query($db, $query2);
+    mysqli_query($con, $query1);
+    mysqli_query($con, $query2);
 
     header("Refresh:0");
 }
-mysqli_close($db);
+mysqli_close($con);
 
 
 

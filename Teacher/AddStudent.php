@@ -7,32 +7,14 @@ if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
 
 $user = $_SESSION["user"];
 
-//connect to the database
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$db = mysqli_connect($host, $user, $password, $db);
-
-//check connection
-if (!$db) {
-  die("Connection failed: " . mysqli_connect_error());
-}
+include_once("../db_config.php");
 
 if (isset($_POST['Tsubmit'])) {
   $selected_class = $_POST['Tclass'];
 
   header("location:mul.php?class_name=" . $selected_class);
 
-
-
-
 }
-
-//  $file = fopen('query.log', 'w');
-//  fwrite($file, $selected_class);
-//  fclose($file);
 
 ?>
 

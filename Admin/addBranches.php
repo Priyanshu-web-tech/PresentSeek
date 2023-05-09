@@ -5,20 +5,7 @@ if (!isset($_SESSION["loggedInA"]) || $_SESSION["loggedInA"] !== true) {
   exit;
 }
 
-
-//connect to the database
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$db = mysqli_connect($host, $user, $password, $db);
-
-//check connection
-if (!$db) {
-  die("Connection failed: " . mysqli_connect_error());
-}
-
+include_once("../db_config.php");
 
 
 //check if the form is submitted
@@ -32,8 +19,8 @@ if (isset($_POST['submit'])) {
   alert('Branch Added Successfully');
   </script>";
 
-  mysqli_query($db, $sql);
-  mysqli_close($db);
+  mysqli_query($con, $sql);
+  mysqli_close($con);
 }
 
 ?>

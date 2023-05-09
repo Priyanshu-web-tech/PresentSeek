@@ -1,11 +1,6 @@
 <?php
 session_start();
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$con = mysqli_connect($host, $user, $password, $db);
+include_once("db_config.php");
 
 if (isset($_POST['user'])) {
 

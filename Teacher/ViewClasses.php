@@ -6,17 +6,7 @@ if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
 }
 //connect to the database
 
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$db = mysqli_connect($host, $user, $password, $db);
-
-//check connection
-if (!$db) {
-  die("Connection failed: " . mysqli_connect_error());
-}
+include_once("../db_config.php");
 
 if (isset($_POST['submit'])) {
   $class_name = $_POST['class'];

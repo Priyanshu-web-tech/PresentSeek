@@ -5,18 +5,7 @@ if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
   exit;
 }
 
-//connect to the database
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$db = mysqli_connect($host, $user, $password, $db);
-
-//check connection
-if (!$db) {
-  die("Connection failed: " . mysqli_connect_error());
-}
+include_once("../db_config.php");
 
 if (isset($_POST['submit'])) {
 
@@ -25,10 +14,10 @@ if (isset($_POST['submit'])) {
   $sql = "DELETE FROM `classes` WHERE `class_name`='$class';";
   $sql2 = "DROP TABLE $class;";
   $sql3 = "DELETE FROM `attendance` WHERE `class_name`='$class';";
-  mysqli_query($db, $sql);
-  mysqli_query($db, $sql2);
-  mysqli_query($db, $sql3);
-  mysqli_close($db);
+  mysqli_query($con, $sql);
+  mysqli_query($con, $sql2);
+  mysqli_query($con, $sql3);
+  mysqli_close($con);
 
   echo "<script>
     alert('Class Succesfully Removed');

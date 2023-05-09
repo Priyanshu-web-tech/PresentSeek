@@ -5,29 +5,17 @@ if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
   exit;
 }
 
-//connect to the database
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$db = mysqli_connect($host, $user, $password, $db);
-
-//check connection
-if (!$db) {
-  die("Connection failed: " . mysqli_connect_error());
-}
-
+include_once("../db_config.php");
 
 $user = $_SESSION["user"];
 $pass = $_SESSION["pass"];
 
 $sql = "SELECT `position`,`experience`,`email`,`area_of_expertise`,`phone`,`name` FROM `loginformteacher` WHERE `user`='" . $user . "';";
-$result = mysqli_query($db, $sql);
+$result = mysqli_query($con, $sql);
 $row = mysqli_fetch_assoc($result);
 
 $sql2 = "SELECT `class_name` FROM `classes` WHERE `user`='" . $user . "';";
-$result2 = mysqli_query($db, $sql2);
+$result2 = mysqli_query($con, $sql2);
 $classes = array();
 while ($row2 = mysqli_fetch_assoc($result2)) {
   $classes[] = $row2['class_name'];
@@ -45,11 +33,11 @@ if (isset($_POST['submitS'])) {
   //update data into the database
   $query2 = "UPDATE `loginformteacher` SET `pass`='$upass',`position`='$uposition',`experience`='$uexp',`email`='$uemail',`area_of_expertise`='$uarea',`phone`='$uphone'  WHERE `user`='" . $user . "';";
 
-  mysqli_query($db, $query2);
+  mysqli_query($con, $query2);
 
   header("location:index.php");
 }
-mysqli_close($db);
+mysqli_close($con);
 
 ?>
 
@@ -184,9 +172,9 @@ mysqli_close($db);
                 <div class="card card-style1 border-0">
                   <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
                     <div class="row align-items-center">
-                      <div class="col-lg-6 mb-4 mb-lg-0">
+                      <div class="col-lg-6 mb-4 mb-lg-0 d-flex justify-content-center align-center">
 
-                        <img src="../images/man.png" width="80%" class="img-fluid" alt="">
+                        <img src="../images/man.png" width="85%" class="img-fluid" alt="">
                       </div>
                       <div class="col-lg-6 px-xl-10">
                         <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">

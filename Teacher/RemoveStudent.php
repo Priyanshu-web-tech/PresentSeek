@@ -5,18 +5,7 @@ if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
   exit;
 }
 
-//connect to the database
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$db = mysqli_connect($host, $user, $password, $db);
-
-//check connection
-if (!$db) {
-  die("Connection failed: " . mysqli_connect_error());
-}
+include_once("../db_config.php");
 
 if (isset($_POST['submit'])) {
 
@@ -25,10 +14,10 @@ if (isset($_POST['submit'])) {
 
   $sql = "DELETE FROM attendance WHERE RollNo=$roll;";
   $sql2 = "DELETE FROM $class WHERE RollNo=$roll;";
-   mysqli_query($db, $sql);
-   $result =mysqli_query($db, $sql2);
+   mysqli_query($con, $sql);
+   $result =mysqli_query($con, $sql2);
   
-  if (mysqli_affected_rows($db) == 0) {
+  if (mysqli_affected_rows($con) == 0) {
     echo "<script>
     alert('No student with the given roll number exists');
     window.location.href = 'RemoveStudent.php';

@@ -1,10 +1,5 @@
 <?php
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$conn = mysqli_connect($host, $user, $password, $db);
+include_once("../../db_config.php");
 
 if (isset($_POST['class']) && !empty($_POST['class'])) {
 
@@ -14,7 +9,7 @@ if (isset($_POST['class']) && !empty($_POST['class'])) {
   $sem = $_POST['sem'];
 
   $sq = "SELECT  MAX(`Total`) FROM $class;";
-  $kp = mysqli_query($conn, $sq);
+  $kp = mysqli_query($con, $sq);
   $ki = mysqli_fetch_array($kp);
 
   if (!empty($ki[0])) {
@@ -27,11 +22,11 @@ if (isset($_POST['class']) && !empty($_POST['class'])) {
 
   $query = "INSERT INTO `$class` (`RollNo`,`Names`,`Sem`,`Present`,`Total`) VALUES ( '$roll','$name','$sem',0,0)";
 
-  mysqli_query($conn, $query);
+  mysqli_query($con, $query);
 
   $query2 = "UPDATE `$class` SET `Total`='$tot' WHERE `RollNO`='$roll';";
-  mysqli_query($conn, $query2);
+  mysqli_query($con, $query2);
 
-  mysqli_close($conn);
+  mysqli_close($con);
 }
 ?>

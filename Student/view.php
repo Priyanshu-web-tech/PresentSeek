@@ -5,22 +5,7 @@ if (!isset($_SESSION["loggedInS"]) || $_SESSION["loggedInS"] !== true) {
   exit;
 }
 
-//connect to the database
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$db = mysqli_connect($host, $user, $password, $db);
-
-//check connection
-if (!$db) {
-  die("Connection failed: " . mysqli_connect_error());
-}
-
-if (!$db) {
-  die("Connection failed: " . mysqli_connect_error());
-}
+include_once("../db_config.php");
 $userS = $_SESSION["user"];
 
 //check if the form is submitted
@@ -32,7 +17,7 @@ if (isset($_POST['submitD'])) {
   $year = $date[2];
 
   $sql = "SELECT `class_name`,`date`,`status` FROM `attendance` WHERE YEAR(date)=$year and MONTH(date)=$month and DAY(date)=$day and `RollNO`=$userS;";
-  $result = mysqli_query($db, $sql);
+  $result = mysqli_query($con, $sql);
 
   //create a new file and name it
   $file = fopen("Attendance_" . $month . "_" . $day . "_" . $year . ".csv", "w");
@@ -65,12 +50,12 @@ if (isset($_POST['submitD'])) {
 $x = 0;
 
 $q1 = "SELECT * FROM loginformstudent where `user`=$userS";
-$res1 = mysqli_query($db, $q1);
+$res1 = mysqli_query($con, $q1);
 $r1 = mysqli_fetch_assoc($res1);
 $branch = $r1['branch'];
 $section = $r1['section'];
 $sql1 = "SELECT `class_name`,  `subject` FROM `classes`;";
-$result1 = mysqli_query($db, $sql1);
+$result1 = mysqli_query($con, $sql1);
 $class_names = array();
 $subjects = array();
 while ($row = mysqli_fetch_assoc($result1)) {
@@ -95,7 +80,7 @@ for ($i = 0; $i < count($class_names); $i++) {
 }
 $query .= "AND " . $class_names[0] . ".RollNO=" . "$userS;";
  
-$result = mysqli_query($db, $query);
+$result = mysqli_query($con, $query);
 $K = array();
 for ($h = 0; $h < count($subjects); $h++) {
   array_push($K, $subjects[$h] . " ATTENDED LECTURES");
@@ -136,7 +121,7 @@ $endSum = 0;
 
 foreach ($class_names as $class_name) {
   $newQuery = "SELECT  `term_start`, `term_end`, `num_lectures` FROM `classes` WHERE `class_name`='$class_name'";
-  $ot = mysqli_query($db, $newQuery);
+  $ot = mysqli_query($con, $newQuery);
   $data = mysqli_fetch_assoc($ot);
   $date1 = $data['term_start'];
   $date2 = $data['term_end'];

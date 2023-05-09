@@ -1,6 +1,4 @@
 <?php
-
-
 session_start();
 if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
   header("Location: ../index.php");
@@ -8,21 +6,10 @@ if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
 }
 
 
-//connect to the database
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$db = mysqli_connect($host, $user, $password, $db);
-
-//check connection
-if (!$db) {
-  die("Connection failed: " . mysqli_connect_error());
-}
+include_once("../db_config.php");
 
 $sql = "SELECT `class_name` FROM `classes`;";
-$result = mysqli_query($db, $sql);
+$result = mysqli_query($con, $sql);
 $existingClasses = [];
 while ($row = mysqli_fetch_assoc($result)) {
   array_push($existingClasses, $row['class_name']);
@@ -56,9 +43,9 @@ if (isset($_POST['submit'])) {
 );";
 
 
-  mysqli_query($db, $query);
-  mysqli_query($db, $query2);
-  mysqli_close($db);
+  mysqli_query($con, $query);
+  mysqli_query($con, $query2);
+  mysqli_close($con);
 
   header("location:CreateClass.php");
 }

@@ -5,24 +5,13 @@ if (!isset($_SESSION["loggedInS"]) || $_SESSION["loggedInS"] !== true) {
   exit;
 }
 
-//connect to the database
-$host = "localhost";
-$user = "root";
-$password = "";
-$db = "presentseek";
-
-$db = mysqli_connect($host, $user, $password, $db);
-
-//check connection
-if (!$db) {
-  die("Connection failed: " . mysqli_connect_error());
-}
+include_once("../db_config.php");
 
 $user = $_SESSION["user"];
 $pass = $_SESSION["pass"];
 
 $sql = "SELECT `Name`,`email`,`phone`,`branch`,`section`,`course`,`sem` FROM `loginformstudent` WHERE `user`='" . $user . "';";
-$result = mysqli_query($db, $sql);
+$result = mysqli_query($con, $sql);
 $row = mysqli_fetch_assoc($result);
 
 if (isset($_POST['submitS'])) {
@@ -30,16 +19,16 @@ if (isset($_POST['submitS'])) {
   $uemail = $_POST['uemail'];
   $uphone = $_POST['uphone'];
   $upass = $_POST['upass'];
-  
+
 
   //update data into the database
   $query2 = "UPDATE `loginformstudent` SET `pass`='$upass',`email`='$uemail',`phone`='$uphone' WHERE `user`='" . $user . "';";
 
-  mysqli_query($db, $query2);
+  mysqli_query($con, $query2);
 
   header("location:index.php");
 }
-mysqli_close($db);
+mysqli_close($con);
 ?>
 
 <!doctype html>
@@ -63,33 +52,33 @@ mysqli_close($db);
 
 <body>
 
-<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
 
-<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#"><strong>PresentSeek</strong></a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#"><strong>PresentSeek</strong></a>
 
-  <button class="navbar-toggler position-absolute d-md-none collapsed" id="BANTI" type="button"
-    data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-    aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" id="BANTI" type="button"
+      data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
 
-  <ul class="nav justify-content-center form-control form-control-dark w-100 rounded-0 border-0 p-0 bg-dark ">
-    <li class="nav-item">
-      <a class="nav-link active" href="./index.php">Home</a>
+    <ul class="nav justify-content-center form-control form-control-dark w-100 rounded-0 border-0 p-0 bg-dark ">
+      <li class="nav-item">
+        <a class="nav-link active" href="./index.php">Home</a>
 
-    </li>
-    <li class="nav-item">
-      <a class="nav-link text-light" href="../features.html">Features</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link text-light" href="../about.html">About Us</a>
-    </li>
-    <li>
-      <a class="nav-link btn text-light" id="signout" onclick="signOut()">Sign out</a>
-    </li>
-  </ul>
-</header>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" href="../features.html">Features</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" href="../about.html">About Us</a>
+      </li>
+      <li>
+        <a class="nav-link btn text-light" id="signout" onclick="signOut()">Sign out</a>
+      </li>
+    </ul>
+  </header>
 
   <div class="container-fluid">
     <div class="row">
@@ -129,8 +118,10 @@ mysqli_close($db);
                 <div class="card card-style1 border-0">
                   <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
                     <div class="row align-items-center">
-                      <div class="col-lg-6 mb-4 mb-lg-0">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="..." class="img-fluid">
+
+                      <div class="col-lg-6 mb-4 mb-lg-0 d-flex justify-content-center align-center">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" width="85%" class="img-fluid"
+                          alt="">
                       </div>
                       <div class="col-lg-6 px-xl-10">
                         <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
@@ -242,7 +233,7 @@ mysqli_close($db);
 
   <script>
 
-   
+
     document.getElementById("show-password").addEventListener("click", function () {
       let passwordInput = document.getElementById("pass");
       if (passwordInput.type === "password") {
